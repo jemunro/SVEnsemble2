@@ -11,5 +11,8 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER svensemble /tmp/src/svensemble
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
 RUN pip install --no-deps /tmp/src && rm -rf /tmp/src
 
+# Put the environment on PATH for non-entrypoint use (docker run --entrypoint, apptainer exec)
+ENV PATH=/opt/conda/bin:$PATH
+
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "svensemble"]
 CMD ["--help"]
